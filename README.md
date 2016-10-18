@@ -17,11 +17,11 @@ Aplikace podporuje několik parametrů na příkazové řádce, viz `node server
 
 ## Zdrojové soubory
 
-* server.js ... zaváděcí skript aplikace
-* http-listener.js ... poskytuje factory metodu `create(options)`, jejíž 
+* `server.js` ... zaváděcí skript aplikace
+* `http-listener.js` ... poskytuje factory metodu `create(options)`, jejíž 
 prostřednictvím lze vytvářet instance http listenerů, zpracovávajících HTTP 
 requesty na routách /count a /track podle zadané specifikace 
-* spec/http-listener.spec.js ... unit test HTTP listeneru, který používá mock 
+* `spec/http-listener.spec.js` ... unit test HTTP listeneru, který používá mock 
 objekty místo databáze a dump filu 
 
 ## Poznámky k implementaci
