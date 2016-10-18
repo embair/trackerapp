@@ -1,0 +1,26 @@
+{
+  "strict": "global",
+  "quotmark": "single",
+  "unused": true,
+  "esversion": 6,
+
+  "globals": {
+    // Jasmine
+    "jasmine": false,
+    "describe": false,
+    "beforeEach": false,
+    "afterEach": false,
+    "beforeAll": false,
+    "afterAll": false,
+    "it": false,
+    "expect": false,
+
+    // Node
+    "module": false,
+    "require": false,
+    "console": false,
+    "setTimeout": false,
+    "setInterval": false,
+    "process": false
+  }
+}

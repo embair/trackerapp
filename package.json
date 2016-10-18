@@ -1,0 +1,21 @@
+{
+  "name": "counter-app",
+  "author": "Michal Bures",
+  "version": "1.0.0",
+  "dependencies": {
+    "assert": "^1.4.1",
+    "async": "^2.1.2",
+    "express": "^4.14.0",
+    "node-getopt": "^0.2.3",
+    "redis": "^2.6.2",
+    "request": "^2.75.0",
+    "tmp": "0.0.29"
+  },
+  "devDependencies": {
+    "jasmine": "^2.5.2"
+  },
+  "scripts": {
+    "test": "jasmine",
+    "start": "node server.js"
+  }
+}
