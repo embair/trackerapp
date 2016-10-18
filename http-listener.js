@@ -26,13 +26,13 @@ module.exports = {
  * the specified port.
  *
  * @param {Object} options configuration parameters
- * @param {Function} options.getCount function(callback) ... should implement retrieval of the
- *     stored counter value; the callback is to be called with the retrieved value as its first
- *     attribute
- * @param {Function} options.incrCount function(number) ... should implement incrementing 
- *     of the stored counter value by the amount specified in the attribute
- * @param {Function} [options.dumpQueryParams] function(obj) ... should implement storing the obj
- *     object into the JSON dump file
+ * @param {Function} options.getCount function(callback(err, result)) ... should implement 
+ *     retrieval of the stored counter value; the callback is to be called with the retrieved value 
+ *     as its second attribute
+ * @param {Function} options.incrCount function(number, callback(err)) ... should implement
+ *      incrementing of the stored counter value by the amount specified in the attribute
+ * @param {Function} [options.dumpQueryParams] function(obj, callback(err)) ... should implement 
+ *     storing the object into the JSON dump file
  * @param {Number} [options.httpPort] HTTP listening port
  */
 function create(options) {
@@ -58,20 +58,24 @@ function create(options) {
     var listener = null;
 
     // handle POST request on /track
-    httpServer.post('/track', function(request, response) {
+    httpServer.post('/track', (request, response) => {
             // dump query params as JSON data to file
             var query = url.parse(request.url, true).query;
-            ext.dumpQueryParams(query);
+            ext.dumpQueryParams(query, (err) => {
+                logger.error('Error storing query params to dump file:', err);
+            });
             var count = request.query.count;
             // ignore count unless it's a number bigger than 0
             if (count && !isNaN(Number(count)) && count > 0) {
-                ext.incrCount(Math.floor(count));
+                ext.incrCount(Math.floor(count), (err) => {
+                    logger.error('Error incrementing counter:', err);
+                });
             }
             // respond immediately, no need to wait for redis callback
             response.status(200).send();
     });
     // handle GET request on /count
-    httpServer.get('/count', function(request, response) {
+    httpServer.get('/count', (request, response) => {
         //get count
         ext.getCount((err, res) => {
             response.header('Content-Type', 'text/plain');
