@@ -100,7 +100,7 @@ function create(options) {
             if (running) return callback('Listener already running');
             running = true;
             listener = httpServer.listen(httpPort, function() {
-                console.log('HTTP server listening on port', httpPort);
+                logger.log('HTTP server listening on port', httpPort);
                 callback();
             });        
         },
