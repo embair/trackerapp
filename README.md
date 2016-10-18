@@ -31,6 +31,6 @@ objekty místo databáze a dump filu
   * při startu aplikace je hodnota 'count' v redis databázi inicializována na hodnotu 0
   * v /track requestech je parametr 'count' tiše ignorován, pokud není kladné číslo; desetinné hodnoty jsou oříznuty na celá čísla
 
-* Původně jsem plánoval, že server.js bude vytvářet s pomocí modulu cluster několik instancí http-listeneru (podle počtu jader CPU), ale testování výkonu (prováděný pomocí apache ab) mě upozornilo na to, že to nemá valný smysl. Veškerý synchronně prováděný kód listeneru je natolik triviální, že zvýšení počtu procesů se na počtu zpracovaných requestů za sekundu měřitelně neprojevilo.
+* Původně jsem plánoval, že server.js bude vytvářet s pomocí modulu cluster několik instancí http-listeneru (podle počtu jader CPU), ale testování výkonu (prováděné pomocí apache ab) mě upozornilo na to, že to nemá valný smysl. Veškerý synchronně prováděný kód listeneru je natolik triviální, že zvýšení počtu procesů se na počtu zpracovaných requestů za sekundu měřitelně neprojevilo.
 
-* Došel jsem k závěru, že zápis do souboru ani interakce s redis databází aktuálně netvoří výkonnostní bottleneck ( úplné zakomentování těchto operací zvýšilo množství odbavených requestů za sekundu jen o několik procent), takže jsem se u nich nepokoušel o žádnou pokročilejší optimalizaci.
+* Došel jsem k závěru, že zápis do souboru ani interakce s redis databází aktuálně netvoří výkonnostní bottleneck ( úplné zakomentování těchto operací zvýšilo množství odbavených requestů za sekundu jen o několik procent), takže jsem se u nich nepokoušel o žádnou pokročilejší optimalizaci. 
