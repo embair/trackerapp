@@ -1,6 +1,6 @@
 /**
- * Application entry point. Opens a Redis DB connection, opens a dump file and initializes 
- * a starts listening on localhost:8000 for incoming requests.
+ * Application entry point. Opens a Redis DB connection, opens a dump file and
+ * a starts listening on localhost:8000 for incoming HTTP requests.
  */
 'use strict';
 
@@ -13,7 +13,7 @@ const httpListener = require('./http-listener.js');
 
 // Command line options
 const opt = require('node-getopt').create([
-    ['l','listen-on=ARG'      ,'HTTP server port (default 6379)'],
+    ['l','listen-on=ARG' ,'HTTP server port (default 6379)'],
     ['r','redis-port=ARG','Redis server port (default 8000)'],
     ['d','dump-file=ARG' ,'File into which /track request parameters will be dumped (default)'],
     ['h','help'          ,'display this help']
