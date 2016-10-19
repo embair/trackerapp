@@ -15,7 +15,7 @@ const httpListener = require('./http-listener.js');
 const opt = require('node-getopt').create([
     ['l','listen-on=ARG' ,'HTTP server port (default 6379)'],
     ['r','redis-port=ARG','Redis server port (default 8000)'],
-    ['d','dump-file=ARG' ,'File into which /track request parameters will be dumped (default)'],
+    ['d','dump-file=ARG' ,'File into which /track request parameters will be dumped (default trackdata.txt)'],
     ['h','help'          ,'display this help']
 ])
 .bindHelp()
