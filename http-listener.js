@@ -28,9 +28,9 @@ module.exports = {
  * @param {Object} options configuration parameters
  * @param {Function} options.getCount function(callback(err, result)) ... should implement 
  *     retrieval of the stored counter value; the callback is to be called with the retrieved value 
- *     as its second attribute
+ *     as its second argument
  * @param {Function} options.incrCount function(number, callback(err)) ... should implement
- *      incrementing of the stored counter value by the amount specified in the attribute
+ *      incrementing of the stored counter value by the amount specified in the argument
  * @param {Function} [options.dumpQueryParams] function(obj, callback(err)) ... should implement 
  *     storing the object into the JSON dump file
  * @param {Number} [options.httpPort] HTTP listening port
