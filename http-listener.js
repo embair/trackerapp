@@ -62,13 +62,17 @@ function create(options) {
             // dump query params as JSON data to file
             var query = url.parse(request.url, true).query;
             ext.dumpQueryParams(query, (err) => {
-                logger.error('Error storing query params to dump file:', err);
+                if(err) {
+                    logger.error('Error storing query params to dump file:', err);
+                }
             });
             var count = request.query.count;
             // ignore count unless it's a number bigger than 0
             if (count && !isNaN(Number(count)) && count > 0) {
                 ext.incrCount(Math.floor(count), (err) => {
-                    logger.error('Error incrementing counter:', err);
+                    if (err) {
+                        logger.error('Error incrementing counter:', err);
+                    }
                 });
             }
             // respond immediately, no need to wait for redis callback

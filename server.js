@@ -28,7 +28,7 @@ var REDIS_PORT=Number(opt.options['redis-port']) || 6379;
 // HTTP server port 
 var HTTP_PORT=Number(opt.options.port) || 8000;
 // JSON data from /track requests will be dumped to this file
-var DUMP_FILE='trackdata.txt';
+var DUMP_FILE=opt.options['dump-file'] || 'trackdata.txt';
 // Max number of miliseconds to wait for graceful shutdown before commiting seppuku
 var GRACEFUL_SHUTDOWN_TIMEOUT = 2000;
 
@@ -57,7 +57,10 @@ var dbClient; //database client
 // Prepare the write stream for dumping JSON data to file
 function initDumpStream(callback) {
     dumpStream = fs.createWriteStream(DUMP_FILE, { flags: 'a' });
-    dumpStream.on('open', ()=>{callback();});
+    dumpStream.on('open', ()=>{ 
+        console.log('Query params will be dumped into '+DUMP_FILE);
+        callback();
+    });
 }
 
 // Prepare the DB connection for storing count
@@ -93,13 +96,13 @@ var listenerInstance = httpListener.create({
         assert.equal(typeof callback,'function');
         dbClient.get(DB.COUNT, callback);
     },
-    incrCount: function(value) {
+    incrCount: function(value, callback) {
         assert.equal(typeof value, 'number');
-        dbClient.incrby(DB.COUNT, value);
+        dbClient.incrby(DB.COUNT, value, callback);
     },
-    dumpQueryParams: function(data) {
+    dumpQueryParams: function(data, callback) {
         assert.equal(typeof data, 'object');
-        dumpStream.write(JSON.stringify(data)+'\n');
+        dumpStream.write(JSON.stringify(data)+'\n', callback);
     }
 });
 
@@ -122,7 +125,7 @@ async.series([
 function gracefulShutdown() {
     console.log('Application shutting down...');
     setTimeout(function() {
-        'Graceful shudtown failed, exiting now.'; 
+        console.log('Graceful shudtown failed, exiting now.'); 
         process.exit(EXIT.ERROR); 
     },GRACEFUL_SHUTDOWN_TIMEOUT);
 
@@ -136,7 +139,7 @@ function gracefulShutdown() {
 
     function closeDumpStream(callback) {
         if (dumpStream) {
-            dumpStream.close(callback);
+            dumpStream.end(callback);
         } else {
             callback();
         }
