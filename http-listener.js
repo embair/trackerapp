@@ -44,7 +44,7 @@ function create(options) {
     var ext = {
         getCount : options.getCount,
         incrCount : options.incrCount,
-        dumpQueryParams : options.dumpQueryParams || () => {},
+        dumpQueryParams : options.dumpQueryParams || (() => {}),
     };
     // validate options
     assert.equal(typeof options.httpPort, 'number');
@@ -100,7 +100,7 @@ function create(options) {
     return {
         get httpPort() { return httpPort; },
         start : function(callback) {
-            callback = callback || ()=>{};
+            callback = callback || (()=>{});
             if (running) return callback('Listener already running');
             running = true;
             listener = httpServer.listen(httpPort, function() {
