@@ -1,5 +1,5 @@
 ## Prerekvizity
-* node
+* node.js 6.9.0+ (kód používá ES6 syntax)
 * npm
 * redis-server
 * aplikace očekává lokálně běžící redis-server na výchozím portu 6379
