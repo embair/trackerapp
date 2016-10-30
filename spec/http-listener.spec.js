@@ -21,7 +21,7 @@ describe('HTTP Listener', function() {
     };
 
     // mock listener using ext object in place of database and dumpfile
-    var listener = httpListener.create({ 
+    var listener = httpListener.create({
         httpPort: HTTP_PORT,
         getCount: function(callback) {
             callback(null,ext.count);
@@ -30,7 +30,9 @@ describe('HTTP Listener', function() {
             ext.count += value;
         },
         dumpQueryParams: function(data) {
-            ext.dumpData.push(data);
+            // lets push it through serialization to make sure the stored
+            // object has Object as prototype
+            ext.dumpData.push(JSON.parse(JSON.stringify(data)));
         }
     });
 
@@ -45,10 +47,10 @@ describe('HTTP Listener', function() {
     /**
      * Returns an utility function that can be used as a callback for request.get()/post() calls.
      * The function will test attributes of the HTTP response.
-     * @param done final callback to be called after the response was processed 
+     * @param done final callback to be called after the response was processed
      * @param expectedStatus (optional) expected HTTP status code
      * @param expectedBody (optional) expected content of the response body
-     */ 
+     */
     function expectResponse(done, expectedStatus, expectedBody) {
         return function(err, resp, body) {
             expect(err).toBeFalsy();
@@ -113,11 +115,11 @@ describe('HTTP Listener', function() {
             ],
             function(err) {
                 if (err) {
-                    done.fail(err);  
+                    done.fail(err);
                 } else {
                     done();
                 }
-            });            
+            });
         };
     }
 
@@ -136,6 +138,7 @@ describe('HTTP Listener', function() {
             track(firstObj),
             track(secondObj),
             (callback) => {
+                expect(ext.dumpData.length).toEqual(2);
                 expect(ext.dumpData).toEqual([firstObj,secondObj]);
                 callback();
             }
@@ -152,7 +155,7 @@ describe('HTTP Listener', function() {
      * Generates a bunch of functions that will each send a /track request when called
      * @param num Number of functions to generate
      * @param list The functions will be appended to this array
-     * @returns total count increment that should be caused by running all the generated 
+     * @returns total count increment that should be caused by running all the generated
      * functions
      */
     function generateTrackRequests(num, list) {
@@ -179,5 +182,4 @@ describe('HTTP Listener', function() {
         });
     });
 
-}); 
-
+});
